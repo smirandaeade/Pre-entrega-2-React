@@ -14,7 +14,7 @@ const Navbar = ({onMenuClick}) => {
     };
 
     return (
-        <nav className="bg-white shadow static md:sticky">
+        <nav className="bg-white shadow static sticky top-0">
             <div className="max-w-7x7 px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex-shrink-0">
@@ -32,10 +32,10 @@ const Navbar = ({onMenuClick}) => {
                 </div>
             </div>
 
-            <div className={`${showMenu ? "block z-50" : "hidden"} flex flex-col w-full md:hidden fixed top-auto -z-10 px-8 py-8 bg-white h-full`}>
+            <div className={`${showMenu ? "block z-50" : "hidden"} items-center flex flex-col w-full md:hidden fixed top-auto -z-10 px-8 py-8 bg-white h-full`}>
 
 
-                <div className='w-[25rem] m-auto mt-0'>
+                <div className='w-full max-w-md mt-0'>
                     <Menu onMenuClick={onMenuClick}/>
                     <Carrito />
                 </div>

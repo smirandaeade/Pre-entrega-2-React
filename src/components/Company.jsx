@@ -74,11 +74,11 @@ const Company = ({ activeMenu }) => {
             {!loading && !error && dataCompany && dataCompany.categorias && (
                 <div className="flex flex-col">
                     <h1 className="text-xl text-center mt-8 mb-8">Todos los productos</h1>
-                    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-3 m-4 w-full">
+                    <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-3">
                         {dataCompany.categorias.map((categoria) =>
                             categoria.productos.map((producto) => (
                                 <div
-                                    className="flex flex-col justify-between mx-auto w-72 card p-3 border-2 rounded-lg shadow-lg"
+                                    className="flex flex-col justify-between mx-auto w-60 card p-3 border-2 rounded-lg shadow-lg"
                                     key={producto.id}
                                 >
                                     <div>
