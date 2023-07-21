@@ -10,6 +10,7 @@ const Menu = ({ onMenuClick }) => {
     const [showSubMenu, setShowSubMenu] = useState(false);
     let [activeMenu2, setActiveMenu] = useState(null);
 
+
     const handleMouseOver = (menu) => {
         if (window.innerWidth < 768) {
             return;
@@ -23,28 +24,10 @@ const Menu = ({ onMenuClick }) => {
         if (window.innerWidth < 768) {
             return;
         }
+
         setShowSubMenu(false);
         setActiveMenu(null);
     };
-
-    const handleClick = (menu) => {
-
-        onMenuClick(menu);
-        console.log(activeMenu2)
-
-        if (window.innerWidth >= 768) {
-            return;
-        }
-        if (activeMenu2 === menu) {
-            setShowSubMenu(!showSubMenu);
-        } else {
-            setShowSubMenu(true);
-            setActiveMenu(menu);
-        }
-
-
-    };
-
 
     return (
         <>
@@ -53,45 +36,50 @@ const Menu = ({ onMenuClick }) => {
                     <p>Inicio</p>
                 </div>
             </Link>
-            <Link to="/playstation"
-                onMouseOver={() => handleMouseOver('PlayStation')}
-                onMouseOut={handleMouseOut}
-                onClick={() => handleClick('PlayStation')}
-                className="md:h-full md:flex md:items-center"
-            >
-                <div
-                    className="md:w-30 text-white bg-blue-800 hover:bg-blue-500 md:h-full items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center shadow"
-                >
-                    <p className="p-2">PlayStation</p>
-                </div>
-                {showSubMenu && activeMenu2 === 'PlayStation' && <SubMenu activeMenu={activeMenu2} />}
-            </Link>
+            <div className='md:h-full' onMouseOut={handleMouseOut}
+                onMouseOver={() => handleMouseOver('PlayStation')}>
+                <Link to="/playstation"
 
-            <Link to="/xbox"
-                onMouseOver={() => handleMouseOver('Xbox')}
-                onMouseOut={handleMouseOut}
-                onClick={() => handleClick('Xbox')}
-                className="md:h-full md:flex md:items-center"
-            >
-                <div
-                    className="md:w-20 text-white bg-lime-700 hover:bg-lime-600 md:h-full items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center"
+                    className="md:h-full md:flex md:items-center"
                 >
-                    <p className="p-2 md:m-auto justify-center">Xbox</p>
-                </div>
+                    <div
+                        className="md:w-30 text-white bg-blue-800 hover:bg-blue-500 md:h-full items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center shadow"
+                    >
+                        <p className="p-2">PlayStation</p>
+                    </div>
+
+
+                </Link>
+                {showSubMenu && activeMenu2 === 'PlayStation' && <SubMenu activeMenu={activeMenu2} />}
+            </div>
+
+            <div className='md:h-full' onMouseOut={handleMouseOut}
+                onMouseOver={() => handleMouseOver('Xbox')}>
+                <Link to="/xbox"
+                    className="md:h-full md:flex md:items-center"
+                >
+                    <div
+                        className="md:w-20 text-white bg-lime-700 hover:bg-lime-500 md:h-full ${} items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center"
+                    >
+                        <p className="p-2 md:m-auto justify-center">Xbox</p>
+                    </div>
+
+                </Link>
                 {showSubMenu && activeMenu2 === 'Xbox' && <SubMenu activeMenu={activeMenu2} />}
-            </Link>
-            <Link to="/nintendo-switch"
-                onMouseOver={() => handleMouseOver('Nintendo Switch')}
-                onMouseOut={handleMouseOut}
-                onClick={() => handleClick('Nintendo Switch')}
-                className="w-30 md:h-full md:flex md:items-center"            >
-                <div
-                    className="md:w-auto md:w-30 text-white bg-red-700 hover:bg-red-500 md:h-full items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center"
-                >
-                    <p className="p-2">Nintendo Switch</p>
-                </div>
+            </div>
+            <div className='md:h-full' onMouseOut={handleMouseOut}
+                onMouseOver={() => handleMouseOver('Nintendo Switch')}>
+                <Link to="/nintendo-switch"
+                    className="w-30 md:h-full md:flex md:items-center">
+                    <div
+                        className="md:w-auto md:w-30 text-white bg-red-700 hover:bg-red-500 md:h-full items-center flex rounded-full mb-2 md:mb-0 md:rounded-none justify-center"
+                    >
+                        <p className="p-2">Nintendo Switch</p>
+                    </div>
+
+                </Link>
                 {showSubMenu && activeMenu2 === 'Nintendo Switch' && <SubMenu activeMenu={activeMenu2} />}
-            </Link>
+            </div>
         </>
     );
 };

@@ -2,6 +2,7 @@ import CategoryNav from "./CategoryNav";
 import Category from "../mocks/categories.json";
 import PropTypes from 'prop-types';
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Company = ({ activeMenu }) => {
     const [dataCompany, setDataCompany] = useState(null);
@@ -55,7 +56,7 @@ const Company = ({ activeMenu }) => {
 
             {loading && (
                 <div className="flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+                    <div className=" -z-50 animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
                 </div>
             )}
 
@@ -77,17 +78,19 @@ const Company = ({ activeMenu }) => {
                     <div className="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-3">
                         {dataCompany.categorias.map((categoria) =>
                             categoria.productos.map((producto) => (
+
                                 <div
-                                    className="flex flex-col justify-between mx-auto w-60 card p-3 border-2 rounded-lg shadow-lg"
+                                    className="flex flex-col justify-between mx-auto h-full w-60 card p-3 border-2 rounded-lg shadow-lg"
                                     key={producto.id}
-                                >
-                                    <div>
-                                        <img className="m-auto" src={producto.imagen} alt={producto.nombre} />
-                                        <h2>{producto.nombre}</h2>
-                                        <p>{producto.descripcion}</p>
-                                        <p>Precio: ${producto.precio}</p>
-                                        {producto.oferta && <p>¡Oferta!</p>}
-                                    </div>
+                                ><Link to={`/${producto.id}`} key={producto.id}>
+                                        <div>
+                                            <img className="m-auto" src={producto.imagen} alt={producto.nombre} />
+                                            <h2>{producto.nombre}</h2>
+                                            <p>{producto.descripcion}</p>
+                                            <p>Precio: ${producto.precio}</p>
+                                            {producto.oferta && <p>¡Oferta!</p>}
+                                        </div>
+                                    </Link>
                                     <div className="mt-7">
                                         <button
                                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -97,6 +100,7 @@ const Company = ({ activeMenu }) => {
                                         </button>
                                     </div>
                                 </div>
+
                             ))
                         )}
                     </div>
