@@ -7,11 +7,9 @@ import ProductDetail from './components/ProductDetail';
 import { useEffect } from 'react';
 import Category from "./mocks/categories.json";
 import Carrito from './components/Carrito';
-import { useLocation } from 'react-router-dom';
 
 
 const App = () => {
-  
   const [activeMenu, setActiveMenu] = useState('inicio');
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [activeCategory, setActiveCategory] = useState([null, activeMenu]);
@@ -22,45 +20,26 @@ const App = () => {
   const [cartQuantity, setCartQuantity] = useState(null)
   const [carrito, setCarrito] = useState([]);
   
-
   useEffect(() => {
     const getCompany = async () => {
       setLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-        let updatedDataCompany = null;
-  
-        const path = window.location.pathname;
-        if (path.includes('playstation')) {
-          setActiveMenu('PlayStation');
-          const foundCompany = Category.companias.find(
-            (compania) => compania.nombre === 'PlayStation'
-          );
-          updatedDataCompany = foundCompany;
-        } else if (path.includes('xbox')) {
-          setActiveMenu('Xbox');
-          const foundCompany = Category.companias.find(
-            (compania) => compania.nombre === 'Xbox'
-          );
-          updatedDataCompany = foundCompany;
-        } else if (path.includes('nintendo-switch')) {
-          setActiveMenu('Nintendo Switch');
-          const foundCompany = Category.companias.find(
-            (compania) => compania.nombre === 'Nintendo Switch'
-          );
-          updatedDataCompany = foundCompany;
-        } else {
-          setActiveMenu('inicio');
+
+        if (activeMenu === 'inicio') {
           const productsOnSale = Category.companias.flatMap((compania) =>
             compania.categorias.flatMap((categoria) =>
               categoria.productos.filter((producto) => producto.oferta)
             )
           );
-          updatedDataCompany = productsOnSale;
+
+          setDataCompany(productsOnSale);
+        } else {
+          const foundCompany = Category.companias.find(
+            (compania) => compania.nombre === activeMenu
+          );
+          setDataCompany(foundCompany);
         }
-  
-        setDataCompany(updatedDataCompany);
       } catch (error) {
         setError(error);
         setDataCompany(null);
@@ -68,9 +47,23 @@ const App = () => {
         setLoading(false);
       }
     };
-  
+
     getCompany();
   }, [activeMenu]);
+
+  useEffect(() => {
+    // Dependiendo de la ruta, actualiza la categoría activa
+    const path = window.location.pathname;
+    if (path.includes('playstation')) {
+      setActiveMenu('PlayStation');
+    } else if (path.includes('xbox')) {
+      setActiveMenu('Xbox');
+    } else if (path.includes('nintendo-switch')) {
+      setActiveMenu('Nintendo Switch');
+    } else {
+      setActiveMenu('inicio');
+    }
+  }, []);
   
 
   useEffect(() => {

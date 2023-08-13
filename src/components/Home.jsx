@@ -31,8 +31,8 @@ const Home = ({ dataCompany, handleProductSelected }) => {
                                                 alt={producto.nombre}
                                             />
                                             <h3 className="text-center mt-2">{producto.nombre}</h3>
-                                            <Link to={`/${producto.nombre.toLowerCase()}/${producto.id}`}>
-                                                <button className="block mx-auto mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg">Ver Detalles</button>
+                                            <Link to={`/${producto.nombre.toLowerCase()}/${producto.id}`} key={producto.id}>
+                                                <button onClick={()=>handleProductSelected(producto)} className="block mx-auto mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg">Ver Detalles</button>
                                             </Link>
                                         </div>
                                     )}
