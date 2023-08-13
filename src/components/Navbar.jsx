@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import Carrito from './Carrito';
+import Carrito from './CarritoLogo';
 import Menu from './Menu';
 import Hamburguer from './Hamburguer';
 import Logo from './Logo';
 
 
-const Navbar = ({onMenuClick}) => {
+const Navbar = ({carrito, cartQuantity, setActiveMenu, setActiveCategory}) => {
 
     const [showMenu, setShowMenu] = useState(false);
 
@@ -21,10 +21,10 @@ const Navbar = ({onMenuClick}) => {
                         <Logo />
                     </div>
                     <div className="md:flex items-center hidden lg:w-auto lg:mr-56 xl:mr-96 h-full">
-                        <Menu onMenuClick={onMenuClick}/>
+                        <Menu setActiveMenu={setActiveMenu} setActiveCategory={setActiveCategory}/>
                     </div>
                     <div className="hidden md:block">
-                        <Carrito />
+                        <Carrito carrito={carrito} cartQuantity={cartQuantity} />
                     </div>
                     <div onClick={handleHamburguerClick} className="z-50 focus:outline-none md:hidden">
                         <Hamburguer />
@@ -33,16 +33,13 @@ const Navbar = ({onMenuClick}) => {
             </div>
 
             <div className={`${showMenu ? "block z-50" : "hidden"} items-center flex flex-col w-full md:hidden fixed top-auto -z-10 px-8 py-8 bg-white h-full`}>
-
-
                 <div className='w-full max-w-md mt-0'>
-                    <Menu onMenuClick={onMenuClick}/>
-                    <Carrito />
+                    <Menu setActiveMenu={setActiveMenu} setActiveCategory={setActiveCategory}/>
+                    <Carrito carrito={carrito} cartQuantity={cartQuantity}/>
                 </div>
             </div>
         </nav>
     );
-    
 };
 
 export default Navbar;

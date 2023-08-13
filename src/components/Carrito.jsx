@@ -1,15 +1,28 @@
-import { FaShoppingCart } from 'react-icons/fa';
+const Carrito = ({ carrito }) => {
+    // Crear un mapa para rastrear las cantidades por ID de producto
+    const cantidadPorId = new Map();
 
-const Carrito = () => {
+    // Calcular las cantidades acumuladas por ID de producto
+    carrito.forEach(item => {
+        if (cantidadPorId.has(item.id)) {
+            cantidadPorId.set(item.id, cantidadPorId.get(item.id) + parseInt(item.cantidad));
+        } else {
+            cantidadPorId.set(item.id, item.cantidad);
+        }
+    });
+
     return (
-        <div className=" text-gray-600 hover:text-gray-800 px-2 py-2 md:h-full flex rounded-full mb-2 md:mb-0 md:rounded-none shadow-xl drop-shadow-2xl md:shadow-none justify-center ">
-            <a className="flex items-center" href="#">
-                <p className='mr-1'>Carrito</p>
-                <FaShoppingCart className="text-gray-600" />
-                <span className='ml-2'>(1)</span>
-            </a>
+        <div>
+            <h2>Carrito de compras</h2>
+            <ul>
+                {Array.from(cantidadPorId.entries()).map(([id, cantidad], index) => (
+                    <li key={index}>
+                        {"Producto: " + id + " cantidad: " + cantidad}
+                    </li>
+                ))}
+            </ul>
         </div>
-    )
-}
+    );
+};
 
-export default Carrito
+export default Carrito;
