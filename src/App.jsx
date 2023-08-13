@@ -7,8 +7,11 @@ import ProductDetail from './components/ProductDetail';
 import { useEffect } from 'react';
 import Category from "./mocks/categories.json";
 import Carrito from './components/Carrito';
+import { useLocation } from 'react-router-dom';
+
 
 const App = () => {
+  
   const [activeMenu, setActiveMenu] = useState('inicio');
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [activeCategory, setActiveCategory] = useState([null, activeMenu]);
@@ -18,27 +21,46 @@ const App = () => {
   const [productoAdded, setProductoAdded] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(null)
   const [carrito, setCarrito] = useState([]);
+  
 
   useEffect(() => {
     const getCompany = async () => {
       setLoading(true);
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        if (activeMenu === 'inicio') {
+  
+        let updatedDataCompany = null;
+  
+        const path = window.location.pathname;
+        if (path.includes('playstation')) {
+          setActiveMenu('PlayStation');
+          const foundCompany = Category.companias.find(
+            (compania) => compania.nombre === 'PlayStation'
+          );
+          updatedDataCompany = foundCompany;
+        } else if (path.includes('xbox')) {
+          setActiveMenu('Xbox');
+          const foundCompany = Category.companias.find(
+            (compania) => compania.nombre === 'Xbox'
+          );
+          updatedDataCompany = foundCompany;
+        } else if (path.includes('nintendo-switch')) {
+          setActiveMenu('Nintendo Switch');
+          const foundCompany = Category.companias.find(
+            (compania) => compania.nombre === 'Nintendo Switch'
+          );
+          updatedDataCompany = foundCompany;
+        } else {
+          setActiveMenu('inicio');
           const productsOnSale = Category.companias.flatMap((compania) =>
             compania.categorias.flatMap((categoria) =>
               categoria.productos.filter((producto) => producto.oferta)
             )
           );
-
-          setDataCompany(productsOnSale);
-        } else {
-          const foundCompany = Category.companias.find(
-            (compania) => compania.nombre === activeMenu
-          );
-          setDataCompany(foundCompany);
+          updatedDataCompany = productsOnSale;
         }
+  
+        setDataCompany(updatedDataCompany);
       } catch (error) {
         setError(error);
         setDataCompany(null);
@@ -46,26 +68,24 @@ const App = () => {
         setLoading(false);
       }
     };
-
+  
     getCompany();
   }, [activeMenu]);
+  
 
   useEffect(() => {
-    // Dependiendo de la ruta, actualiza la categoría activa
-    const path = window.location.pathname;
-    if (path.includes('playstation')) {
-      setActiveMenu('PlayStation');
-    } else if (path.includes('xbox')) {
-      setActiveMenu('Xbox');
-    } else if (path.includes('nintendo-switch')) {
-      setActiveMenu('Nintendo Switch');
-    } else {
-      setActiveMenu('inicio');
-    }
-  }, []);
+    // Resto del código...
+
+    // Agregar los console.log aquí, solo para propósitos de depuración
+    console.log("cartQuantity:", cartQuantity);
+    console.log("carrito length:", carrito.length);
+    console.log("activeCategory:", activeCategory);
+    console.log("productoAdded:", productoAdded);
+    console.log("selectedProduct:", selectedProduct);
+  }, [cartQuantity, carrito.length, activeCategory, productoAdded, selectedProduct]);
 
   console.log(cartQuantity)
-  console.log(carrito)
+  console.log(carrito.length)
   console.log(activeCategory)
   console.log(activeMenu)
   console.log(dataCompany)
@@ -75,24 +95,24 @@ const App = () => {
   const loquehay = carrito.map((producto) => ({ ...producto }));
   console.log(loquehay)
 
-    useEffect(() => {
-      if (selectedProduct !== null) {
-        const selectedProductId = selectedProduct.id; console.log(selectedProductId)
+  useEffect(() => {
+    if (selectedProduct !== null) {
+      const selectedProductId = selectedProduct.id; console.log(selectedProductId)
 
-        if (productoAdded !== null && selectedProductId === productoAdded) {
-          console.log(productoAdded)
-          const updatedSelectedProduct = {
-            ...selectedProduct,
-            cantidad: cartQuantity
-          };
+      if (productoAdded !== null && selectedProductId === productoAdded) {
+        console.log(productoAdded)
+        const updatedSelectedProduct = {
+          ...selectedProduct,
+          cantidad: cartQuantity
+        };
 
-          setCarrito(prevCarrito => [...prevCarrito, updatedSelectedProduct])
-          if(productoAdded === selectedProductId)
-            setProductoAdded(null)
-        
-        }
+        setCarrito(prevCarrito => [...prevCarrito, updatedSelectedProduct])
+        if (productoAdded === selectedProductId)
+          setProductoAdded(null)
+
       }
-    }, [productoAdded, selectedProduct, cartQuantity]);
+    }
+  }, [productoAdded, selectedProduct, cartQuantity]);
 
   const handleAddToCart = (selectedProduct) => {
     setProductoAdded(selectedProduct);
@@ -106,6 +126,11 @@ const App = () => {
     setCartQuantity(cant)
   }
 
+  const handleRemoveFromCart = (productId) => {
+    const updatedCarrito = carrito.filter(item => item.id !== productId);
+    setCarrito(updatedCarrito);
+};
+
   return (
     <Router>
       <Navbar carrito={carrito} setActiveMenu={setActiveMenu} setActiveCategory={setActiveCategory} cartQuantity={cartQuantity} />
@@ -115,7 +140,7 @@ const App = () => {
         <Route exact path="/Pre-entrega-2-React/xbox" element={<Company getQuantity={getQuantity} handleProductSelected={handleProductSelected} loading={loading} error={error} dataCompany={dataCompany} setActiveCategory={setActiveCategory} activeMenu={activeMenu} activeCategory={activeCategory} handleAddToCart={handleAddToCart} />} />
         <Route exact path="/Pre-entrega-2-React/nintendo-switch" element={<Company getQuantity={getQuantity} handleProductSelected={handleProductSelected} loading={loading} error={error} dataCompany={dataCompany} setActiveCategory={setActiveCategory} activeMenu={activeMenu} activeCategory={activeCategory} handleAddToCart={handleAddToCart} />} />
         <Route exact path="/:product/:productId" element={<ProductDetail cartQuantity={cartQuantity} getQuantity={getQuantity} handleAddToCart={handleAddToCart} product={selectedProduct} />} />
-        <Route exact path="/Pre-entrega-2-React/carrito" element={<Carrito carrito={carrito} />} />
+        <Route exact path="/Pre-entrega-2-React/carrito" element={<Carrito carrito={carrito} onRemoveItem={handleRemoveFromCart} />} />
       </Routes>
     </Router>
   )
