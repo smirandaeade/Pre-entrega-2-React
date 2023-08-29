@@ -1,10 +1,11 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useAppContext } from "./context/AppContext";
 
-const Home = ({ dataCompany, handleProductSelected }) => {
+
+const Home = () => {
     const settings = {
         dots: false,
         infinite: true,
@@ -12,6 +13,9 @@ const Home = ({ dataCompany, handleProductSelected }) => {
         slidesToShow: 4,
         slidesToScroll: 1
     };
+
+    const { dataCompany, handleProductSelected } = useAppContext();
+
 
     return (
         <div className="flex flex-col items-center">
@@ -32,7 +36,7 @@ const Home = ({ dataCompany, handleProductSelected }) => {
                                             />
                                             <h3 className="text-center mt-2">{producto.nombre}</h3>
                                             <Link to={`/${producto.nombre.toLowerCase()}/${producto.id}`} key={producto.id}>
-                                                <button onClick={()=>handleProductSelected(producto)} className="block mx-auto mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg">Ver Detalles</button>
+                                                <button onClick={() => handleProductSelected(producto)} className="block mx-auto mt-2 bg-blue-500 text-white py-2 px-4 rounded-lg">Ver Detalles</button>
                                             </Link>
                                         </div>
                                     )}

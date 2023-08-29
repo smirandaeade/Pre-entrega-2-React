@@ -1,5 +1,8 @@
+import { useAppContext } from "./context/AppContext";
 
-const Categories = ({activeMenu, setActiveCategory}) => {
+const Categories = () => {
+
+    const { activeMenu, setActiveCategory } = useAppContext();
 
     const handleActiveCategory = (categoria) => {
         setActiveCategory([categoria, activeMenu])

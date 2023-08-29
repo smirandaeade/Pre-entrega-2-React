@@ -1,9 +1,12 @@
 
 import ProductCard from "./ProductCard";
 import Categories from "./Categories";
+import { useAppContext } from "./context/AppContext";
 
-const Company = ({getQuantity, handleProductSelected, activeMenu, handleAddToCart, activeCategory, setActiveCategory, dataCompany, error, loading }) => {
 
+const Company = () => {
+    
+    const { getQuantity, handleProductSelected, activeMenu, handleAddToCart, activeCategory, setActiveCategory, dataCompany, error, loading } = useAppContext();
 
     const handleTitleBgColor = () => {
         if (activeMenu === 'PlayStation') {

@@ -1,8 +1,12 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import { useAppContext } from "./context/AppContext";
 
-const ProductCard = ({ getQuantity, producto, handleAddToCart, handleProductSelected }) => {
+const ProductCard = ({producto}) => {
+    
+    const { getQuantity, handleAddToCart, handleProductSelected } = useAppContext();
+
+    console.log(producto)
     return (
         <div className="flex flex-col h-[25rem] w-60 card p-3 border-2 rounded-lg shadow-lg m-auto">
             <Link to={`/${producto.nombre.toLowerCase()}/${producto.id}`} key={producto.id} className="flex-grow">

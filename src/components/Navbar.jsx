@@ -3,10 +3,11 @@ import Carrito from './CarritoLogo';
 import Menu from './Menu';
 import Hamburguer from './Hamburguer';
 import Logo from './Logo';
+import { useAppContext } from './context/AppContext'; // Importa el contexto
 
+const Navbar = () => {
 
-const Navbar = ({carrito, cartQuantity, setActiveMenu, setActiveCategory}) => {
-
+    const { carrito, cartQuantity, setActiveMenu, setActiveCategory } = useAppContext();
     const [showMenu, setShowMenu] = useState(false);
 
     const handleHamburguerClick = () => {

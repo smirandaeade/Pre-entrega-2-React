@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useAppContext } from './context/AppContext'; // Importa el contexto
 
+const Menu = () => {
 
-const Menu = ({ setActiveMenu, setActiveCategory }) => {
-
+    const { setActiveMenu, setActiveCategory } = useAppContext();
 
     const handleOnClick = (menu) => {
         setActiveMenu(menu)

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useAppContext } from "./context/AppContext";
 
-const Carrito = ({ carrito, onRemoveItem }) => {
+
+const Carrito = () => {
     const [showSummary, setShowSummary] = useState(false);
     const [purchasedProducts, setPurchasedProducts] = useState([]);
     const [totalCost, setTotalCost] = useState(0);
+    const { carrito, handleRemoveFromCart } = useAppContext();
+
 
     const productosAgrupados = new Map();
 
@@ -46,7 +50,7 @@ const Carrito = ({ carrito, onRemoveItem }) => {
                                 <div>{"Cantidad: " + producto.cantidad}</div>
                                 <button
                                     className="text-red-500 hover:text-red-700"
-                                    onClick={() => onRemoveItem(producto.id)}
+                                    onClick={() => handleRemoveFromCart(producto.id)}
                                 >
                                     Eliminar
                                 </button>

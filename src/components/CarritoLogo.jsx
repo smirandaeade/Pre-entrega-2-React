@@ -1,8 +1,11 @@
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useAppContext } from "./context/AppContext";
 
-const CarritoLogo = ({ carrito }) => {
+const CarritoLogo = () => {
+    const { carrito } = useAppContext();
     const totalCantidad = carrito.reduce((total, producto) => total + parseInt(producto.cantidad, 10), 0);
+
 
     return (
         <Link to="/Pre-entrega-2-React/carrito">
